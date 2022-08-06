@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}University index{% endblock %}
+
+{% block body %}
+    
+    <header class="container-fluid">
+        <div class="col-4">
+           <h1>University index</h1>
+        </div>
+
+        <div class=" logo col-4  d-flex  container" >
+            <img src="{{asset('build/images/University.jpg')}} " style="width:80%; height:80% ">
+        </div>
+    </header>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>CreatedUsername</th>
+                <th>UpdatedUsername</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for university in universities %}
+            <tr>
+                <td>{{ university.id }}</td>
+                <td>{{ university.name }}</td>
+                <td>{{ university.description }}</td>
+                <td>{{ university.createdAt ? university.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ university.updatedAt ? university.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ university.createdUsername }}</td>
+                <td>{{ university.updatedUsername }}</td>
+                <td>
+                    <a href="{{ path('app_university_show', {'id': university.id}) }}">show</a>
+                    <a href="{{ path('app_university_edit', {'id': university.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_university_new') }}">Create new</a>
+{% endblock %}

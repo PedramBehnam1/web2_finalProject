@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dorm{% endblock %}
+
+{% block stylesheets %}
+ {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+ {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Dorm {{query}}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>university</th>
+                <th>Name</th>
+                <th>score</th>
+                <th>numberOfRooms</th>
+                <th>CreatedAt</th>
+                <th>updatedAt</th>
+                <th>createdUsername</th>
+                <th>updatedUsername</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dorm in dorms %}
+            <tr>
+                <td>{{ dorm.id }}</td>
+                <td>{{ dorm.university }}</td>
+                <td>{{ dorm.name }}</td>
+                <td>{{ dorm.score }}</td>
+                <td>{{ dorm.numberOfRooms }}</td>
+                <td>{{ dorm.createdAt ? hotel.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dorm.updatedAt ? hotel.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dorm.createdUsername }}</td>
+                <td>{{ dorm.updatedUsername }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

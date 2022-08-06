@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dorm index{% endblock %}
+
+{% block body %}
+    <header class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <h1>Dorm index</h1>
+        </div>
+
+        <div class=" logo col-4  d-flex  container" >
+            <img src="{{asset('build/images/University.jpg')}} " style="width:80%; height:80% ">
+        </div>
+
+        
+        <div class=" logo col-4 " >
+            <div class="m-5">
+                <form class="form-inline" method="get" action="{{ path('app_hotel_search') }}">
+                    <input class="form-control mr-sm-2" name="query" type="text" placeholder="Search..." aria-label="Search">
+                    <input class="btn btn-success my-2 my-sm-0" value="Search" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>  
+    </header>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Score</th>
+                <th>NumberOfRooms</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>CreatedUsername</th>
+                <th>UpdatedUsername</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dorm in dorms %}
+            <tr>
+                <td>{{ dorm.id }}</td>
+                <td>{{ dorm.name }}</td>
+                <td>{{ dorm.score }}</td>
+                <td>{{ dorm.numberOfRooms }}</td>
+                <td>{{ dorm.createdAt ? dorm.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dorm.updatedAt ? dorm.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dorm.createdUsername }}</td>
+                <td>{{ dorm.updatedUsername }}</td>
+                <td>
+                    <a href="{{ path('app_dorm_show', {'id': dorm.id}) }}">show</a>
+                    <a href="{{ path('app_dorm_edit', {'id': dorm.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dorm_new') }}">Create new</a>
+{% endblock %}

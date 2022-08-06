@@ -14,6 +14,9 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {{ knp_menu_render('main', {'template': 'knp_menu.html.twig'}) }}
+        {% block body %}
+            
+        {% endblock %}
     </body>
 </html>

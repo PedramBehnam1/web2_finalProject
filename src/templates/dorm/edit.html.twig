@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Dorm{% endblock %}
+
+{% block body %}
+    <h1>Edit Dorm</h1>
+
+    {{ include('dorm/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_dorm_index') }}">back to list</a>
+
+    {{ include('dorm/_delete_form.html.twig') }}
+{% endblock %}

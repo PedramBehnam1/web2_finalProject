@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dorm{% endblock %}
+
+{% block body %}
+    <h1>Dorm</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dorm.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ dorm.name }}</td>
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{ dorm.score }}</td>
+            </tr>
+            <tr>
+                <th>NumberOfRooms</th>
+                <td>{{ dorm.numberOfRooms }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ dorm.createdAt ? dorm.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ dorm.updatedAt ? dorm.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedUsername</th>
+                <td>{{ dorm.createdUsername }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedUsername</th>
+                <td>{{ dorm.updatedUsername }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dorm_index') }}">back to list</a>
+
+    <a href="{{ path('app_dorm_edit', {'id': dorm.id}) }}">edit</a>
+
+    {{ include('dorm/_delete_form.html.twig') }}
+{% endblock %}

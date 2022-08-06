@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room index{% endblock %}
+
+{% block body %}
+    <header class="container-fluid">
+        <div class="col-4">
+            <h1>Room index</h1>
+        </div>
+        
+        <div class=" logo col-4  d-flex  container" >
+            <img src="{{asset('build/images/University.jpg')}} " style="width:80%; height:80% ">
+        </div>
+    </header>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>RoomNumber</th>
+                <th>Capacity</th>
+                <th>MaximumCapacity</th>
+                <th>IsEmpty</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>CreatedUsername</th>
+                <th>UpdatedUsername</th>
+                <th>UserAccounts</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for room in rooms %}
+            <tr>
+                <td>{{ room.id }}</td>
+                <td>{{ room.roomNumber }}</td>
+                <td>{{ room.capacity }}</td>
+                <td>{{ room.maximumCapacity }}</td>
+                <td>{{ room.isEmpty ? 'Yes' : 'No' }}</td>
+                <td>{{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ room.updatedAt ? room.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ room.createdUsername }}</td>
+                <td>{{ room.updatedUsername }}</td>
+                <td>{{ room.userAccounts ? room.userAccounts|join(', ') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
+                    <a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_room_new') }}">Create new</a>
+{% endblock %}
