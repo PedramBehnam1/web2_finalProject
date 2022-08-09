@@ -14,11 +14,6 @@ class DormType extends AbstractType
         $builder
             ->add('name')
             ->add('score')
-            ->add('numberOfRooms')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('createdUsername')
-            ->add('updatedUsername')
             ->add('university')
         ;
     }

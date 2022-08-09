@@ -20,6 +20,12 @@ RUN apt-get -y update && apt-get -y install yarn
 # install mysql driver
 RUN docker-php-ext-install pdo_mysql
 
+# install intl requirements
+RUN apt-get -y update && apt-get install -y libicu-dev
+
+# install intl
+RUN docker-php-ext-install intl
+
 # install xdebug
 # https://hub.docker.com/_/php
 RUN pecl install xdebug && docker-php-ext-enable xdebug

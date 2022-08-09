@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use App\Interface\TimeInterface;
+use App\Interface\UserInterface;
+use App\Model\TimableTrait;
+use App\Model\UserTrait;
 use App\Repository\RoomRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
-class Room
+class Room implements TimeInterface , UserInterface
 {
+    use TimableTrait;
+    use UserTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,18 +32,6 @@ class Room
 
     #[ORM\Column]
     private ?bool $isEmpty = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $createdUsername = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $updatedUsername = null;
 
     #[ORM\ManyToOne(inversedBy: 'Room')]
     #[ORM\JoinColumn(nullable: false)]
@@ -97,55 +92,7 @@ class Room
 
         return $this;
     }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getCreatedUsername(): ?string
-    {
-        return $this->createdUsername;
-    }
-
-    public function setCreatedUsername(string $createdUsername): self
-    {
-        $this->createdUsername = $createdUsername;
-
-        return $this;
-    }
-
-    public function getUpdatedUsername(): ?string
-    {
-        return $this->updatedUsername;
-    }
-
-    public function setUpdatedUsername(?string $updatedUsername): self
-    {
-        $this->updatedUsername = $updatedUsername;
-
-        return $this;
-    }
-
+    
     public function getDorm(): ?Dorm
     {
         return $this->dorm;

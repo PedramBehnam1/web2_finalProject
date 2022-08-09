@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use App\Interface\TimeInterface;
+use App\Interface\UserInterface;
+use App\Model\TimableTrait;
+use App\Model\UserTrait;
 use App\Repository\UniversityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,8 +13,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UniversityRepository::class)]
-class University
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name:"type", type:"string")]
+#[ORM\DiscriminatorMap(["university" => "University", "location" => "Location"])]
+class University implements TimeInterface , UserInterface
 {
+    use TimableTrait;
+    use UserTrait;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,18 +31,6 @@ class University
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $createdUsername = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $updatedUsername = null;
 
     #[ORM\OneToMany(mappedBy: 'university', targetEntity: Dorm::class, orphanRemoval: true)]
     private Collection $Dorm;
@@ -71,53 +69,6 @@ class University
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getCreatedUsername(): ?string
-    {
-        return $this->createdUsername;
-    }
-
-    public function setCreatedUsername(string $createdUsername): self
-    {
-        $this->createdUsername = $createdUsername;
-
-        return $this;
-    }
-
-    public function getUpdatedUsername(): ?string
-    {
-        return $this->updatedUsername;
-    }
-
-    public function setUpdatedUsername(?string $updatedUsername): self
-    {
-        $this->updatedUsername = $updatedUsername;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Dorm>

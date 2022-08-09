@@ -2,14 +2,26 @@
 
 namespace App\Entity;
 
+use App\Interface\TimeInterface;
+use App\Interface\UserInterface;
+use App\Model\TimableTrait;
+use App\Model\UserTrait;
 use App\Repository\DormRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+
 
 #[ORM\Entity(repositoryClass: DormRepository::class)]
-class Dorm
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
+class Dorm implements TimeInterface , UserInterface
 {
+    use TimableTrait;
+    use UserTrait;
+    use SoftDeleteableEntity; 
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,20 +33,6 @@ class Dorm
     #[ORM\Column]
     private ?int $score = null;
 
-    #[ORM\Column]
-    private ?int $numberOfRooms = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $createdUsername = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $updatedUsername = null;
 
     #[ORM\ManyToOne(inversedBy: 'Dorm')]
     #[ORM\JoinColumn(nullable: false)]
@@ -75,66 +73,6 @@ class Dorm
     public function setScore(int $score): self
     {
         $this->score = $score;
-
-        return $this;
-    }
-
-    public function getNumberOfRooms(): ?int
-    {
-        return $this->numberOfRooms;
-    }
-
-    public function setNumberOfRooms(int $numberOfRooms): self
-    {
-        $this->numberOfRooms = $numberOfRooms;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getCreatedUsername(): ?string
-    {
-        return $this->createdUsername;
-    }
-
-    public function setCreatedUsername(string $createdUsername): self
-    {
-        $this->createdUsername = $createdUsername;
-
-        return $this;
-    }
-
-    public function getUpdatedUsername(): ?string
-    {
-        return $this->updatedUsername;
-    }
-
-    public function setUpdatedUsername(?string $updatedUsername): self
-    {
-        $this->updatedUsername = $updatedUsername;
 
         return $this;
     }

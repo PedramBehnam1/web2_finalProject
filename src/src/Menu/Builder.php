@@ -41,6 +41,7 @@ class Builder
         $menu->addChild('Rooms', ['route' => 'app_room_index']);
         // create another menu item
         $menu->addChild('universities', ['route' => 'app_university_index']);
+        $menu->addChild('location', ['route' => 'app_location_index']);
 
         $dormsMenu = $menu->addChild('Dorms', ['route' => 'app_dorm_index']);
 

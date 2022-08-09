@@ -20,7 +20,6 @@
                 <th>university</th>
                 <th>Name</th>
                 <th>score</th>
-                <th>numberOfRooms</th>
                 <th>CreatedAt</th>
                 <th>updatedAt</th>
                 <th>createdUsername</th>
@@ -34,9 +33,8 @@
                 <td>{{ dorm.university }}</td>
                 <td>{{ dorm.name }}</td>
                 <td>{{ dorm.score }}</td>
-                <td>{{ dorm.numberOfRooms }}</td>
-                <td>{{ dorm.createdAt ? hotel.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ dorm.updatedAt ? hotel.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dorm.createdAt ? dorm.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dorm.updatedAt ? dorm.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ dorm.createdUsername }}</td>
                 <td>{{ dorm.updatedUsername }}</td>
             </tr>
