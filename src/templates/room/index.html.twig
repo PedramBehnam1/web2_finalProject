@@ -44,6 +44,8 @@
                 <td>
                     <a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
                     <a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
+                    <a href="{{ path('app_room_get', {'id': room.id}) }}">getRoom</a>
+                    <a href="{{ path('app_room_leave', {'id': room.id}) }}">leave</a>
                 </td>
             </tr>
         {% else %}

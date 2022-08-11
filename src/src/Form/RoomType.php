@@ -13,14 +13,7 @@ class RoomType extends AbstractType
     {
         $builder
             ->add('roomNumber')
-            ->add('capacity')
             ->add('maximumCapacity')
-            ->add('isEmpty')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('createdUsername')
-            ->add('updatedUsername')
-            ->add('userAccounts')
             ->add('dorm')
         ;
     }

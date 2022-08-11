@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: DormRepository::class)]
@@ -21,16 +22,25 @@ class Dorm implements TimeInterface , UserInterface
     use TimableTrait;
     use UserTrait;
     use SoftDeleteableEntity; 
-    
+
+    const ROLE_EDITOR = "ROLE_EDITOR";
+    const ROLE_DORM_OWNER = "ROLE_DORM_OWNER";
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255), Assert\Regex(pattern:"/^[a-zA-Z|\s]+$/")]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
-    #[ORM\Column]
+    #[ORM\Column, Assert\Range([
+        'min' => 1,
+        'max' => 10,
+        'notInRangeMessage' => 'You must be between {{ min }} and {{ max }} .',
+    ])]
     private ?int $score = null;
 
 
@@ -40,6 +50,12 @@ class Dorm implements TimeInterface , UserInterface
 
     #[ORM\OneToMany(mappedBy: 'dorm', targetEntity: Room::class, orphanRemoval: true)]
     private Collection $Room;
+
+    #[ORM\ManyToOne(inversedBy: 'dorms')]
+    private ?User $owner = null;
+
+    #[ORM\ManyToOne(inversedBy: 'dormsEditor')]
+    private ?User $editor = null;
 
     public function __construct()
     {
@@ -122,5 +138,29 @@ class Dorm implements TimeInterface , UserInterface
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getEditor(): ?User
+    {
+        return $this->editor;
+    }
+
+    public function setEditor(?User $editor): self
+    {
+        $this->editor = $editor;
+
+        return $this;
     }
 }

@@ -33,6 +33,12 @@ when@prod:
         type: pool
         pool: doctrine.result_cache_pool
 
+      entity_managers:
+        default:
+          filters:
+            softdeleteable:
+              class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+              enabled: true
   framework:
     cache:
       pools:
@@ -40,10 +46,3 @@ when@prod:
           adapter: cache.app
         doctrine.system_cache_pool:
           adapter: cache.system
-  orm:
-    entity_managers:
-      default:
-        filters:
-        softdeleteable:
-          class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-          enabled: true

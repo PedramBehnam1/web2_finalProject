@@ -35,8 +35,11 @@ security:
   access_control:
     - { path: ^/admin, roles: ROLE_Admin }
     - { path: ^/university, roles: ROLE_Admin }
-    - { path: ^/dorm, roles: ROLE_Student }
+    - { path: ^/dorm, roles: [ROLE_Student, ROLE_EDITOR, ROLE_DORM_OWNER] }
     - { path: ^/room, roles: ROLE_Student }
+    - { path: ^/location, roles: ROLE_Admin }
+  # role_hierarchy:
+  #   ROLE_EDITOR: ROLE_DORM_OWNER
 
 when@test:
   security:

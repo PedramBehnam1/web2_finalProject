@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -28,6 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Dorm::class)]
+    private Collection $dorms;
+
+    #[ORM\OneToMany(mappedBy: 'editor', targetEntity: Dorm::class)]
+    private Collection $dormsEditor;
+
+    public function __construct()
+    {
+        $this->dorms = new ArrayCollection();
+        $this->dormsEditor = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,5 +111,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Dorm>
+     */
+    public function getDorms(): Collection
+    {
+        return $this->dorms;
+    }
+
+    public function addDorm(Dorm $dorm): self
+    {
+        if (!$this->dorms->contains($dorm)) {
+            $this->dorms->add($dorm);
+            $dorm->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDorm(Dorm $dorm): self
+    {
+        if ($this->dorms->removeElement($dorm)) {
+            // set the owning side to null (unless already changed)
+            if ($dorm->getOwner() === $this) {
+                $dorm->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dorm>
+     */
+    public function getDormsEditor(): Collection
+    {
+        return $this->dormsEditor;
+    }
+
+    public function addDormsEditor(Dorm $dormsEditor): self
+    {
+        if (!$this->dormsEditor->contains($dormsEditor)) {
+            $this->dormsEditor->add($dormsEditor);
+            $dormsEditor->setEditor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDormsEditor(Dorm $dormsEditor): self
+    {
+        if ($this->dormsEditor->removeElement($dormsEditor)) {
+            // set the owning side to null (unless already changed)
+            if ($dormsEditor->getEditor() === $this) {
+                $dormsEditor->setEditor(null);
+            }
+        }
+
+        return $this;
     }
 }
