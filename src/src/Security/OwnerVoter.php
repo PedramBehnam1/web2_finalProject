@@ -89,7 +89,7 @@ protected function supports(string $attribute, $subject):bool
   * @return bool
  */
   public function canNew($dorm, $user){ 
-  return !$user->getDorms()->isEmpty();
+  return $dorm->getOwner() === $user;
   } 
 
   /**

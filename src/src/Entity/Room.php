@@ -9,6 +9,7 @@ use App\Model\UserTrait;
 use App\Repository\RoomRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room implements TimeInterface , UserInterface
@@ -27,7 +28,7 @@ class Room implements TimeInterface , UserInterface
     #[ORM\Column]
     private ?int $capacity = null;
 
-    #[ORM\Column]
+    #[ORM\Column, Assert\Regex(pattern:"/^[\d]+$/")]
     private ?int $maximumCapacity = null;
 
     #[ORM\Column]
